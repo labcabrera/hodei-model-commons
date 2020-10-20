@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class Address {
 
 	@ExistingCountry
-	@NotNull(message = "{validation.constraints.address.required-country")
+	@NotNull(message = "{validation.constraints.address.required-country}")
 	@Schema(description = "Country", required = true, example = "ESP")
 	private String countryId;
 
@@ -31,11 +31,11 @@ public class Address {
 	@Schema(description = "Province", required = false, example = "ESP-28")
 	private String provinceId;
 
-	@NotBlank(message = "{validation.constraints.address.required-locality")
+	@NotBlank(message = "{validation.constraints.address.required-locality}")
 	@Schema(description = "Locality", required = true, example = "MADRID")
 	private String locality;
 
-	@NotBlank(message = "{validation.constraints.address.required-zipcode")
+	@NotBlank(message = "{validation.constraints.address.required-zipcode}")
 	@Schema(description = "Zip code", required = true, example = "28001")
 	private String zipCode;
 
@@ -43,7 +43,7 @@ public class Address {
 	@Schema(description = "Road type. This value must match one of the existing values in the system. You can obtain them from commons API", example = "street")
 	private String roadType;
 
-	@NotBlank(message = "{validation.constraints.address.required-road")
+	@NotBlank(message = "{validation.constraints.address.required-road}")
 	@Schema(description = "Street, number and floor", required = true, example = "SERRANO 3, 2B")
 	private String road;
 
