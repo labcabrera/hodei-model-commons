@@ -23,7 +23,7 @@ public class IdCardValidator implements ConstraintValidator<ValidIdCard, IdCard>
 			if (value.getType() != null) {
 				Predicate<String> predicate = resolveIdCardNumberPredicate(value);
 				if (predicate != null && !predicate.test(value.getNumber())) {
-					ctx.buildConstraintViolationWithTemplate("{validation.constraints.idcard.invalid}")
+					ctx.buildConstraintViolationWithTemplate("{validation.constraints.idcard.invalid-number}")
 						.addPropertyNode("number")
 						.addConstraintViolation();
 					return false;
