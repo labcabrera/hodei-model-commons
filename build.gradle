@@ -26,10 +26,10 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	compileOnly 'org.springframework.boot:spring-boot-starter-security'
 
-	implementation 'org.springdoc:springdoc-openapi-ui:1.4.8'
+	compileOnly 'org.springdoc:springdoc-openapi-ui:1.4.8'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
