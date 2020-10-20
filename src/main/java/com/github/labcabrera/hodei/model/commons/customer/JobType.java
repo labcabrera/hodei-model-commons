@@ -1,0 +1,34 @@
+package com.github.labcabrera.hodei.model.commons.customer;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.github.labcabrera.hodei.model.commons.audit.EntityMetadata;
+import com.github.labcabrera.hodei.model.commons.serialization.RoleManagerFilter;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Document(collection = "jobTypes")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString(of = "id")
+public class JobType {
+
+	@Id
+	@Schema(description = "Job type identifier")
+	private String id;
+
+	private String description;
+
+	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = RoleManagerFilter.class)
+	private EntityMetadata metadata;
+
+}
