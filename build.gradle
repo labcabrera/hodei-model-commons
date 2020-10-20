@@ -9,6 +9,12 @@ group = 'org.github.labcabrera'
 version = version
 sourceCompatibility = '11'
 
+ext {
+	set('nexusUsername',                System.getenv('NEXUS_USERNAME'))
+	set('nexusPassword',                System.getenv('NEXUS_PASSWORD'))
+	set('nexusUrl',                     System.getenv('NEXUS_URL'))
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -41,4 +47,38 @@ bootJar {
 
 test {
 	useJUnitPlatform()
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allJava
+	classifier = 'sources'
+}
+
+jar {
+	enabled = true
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId = group
+			artifactId = project.name
+			version = version
+			from components.java
+			artifact sourcesJar
+		}
+	}
+	repositories {
+		maven {
+			credentials {
+				username nexusUsername
+				password nexusPassword
+			}
+			if (project.version.endsWith('-SNAPSHOT')) {
+				url "${nexusUrl}/repository/maven-snapshots"
+			} else {
+				url "${nexusUrl}/repository/maven-releases"
+			}
+		}
+	}		
 }
