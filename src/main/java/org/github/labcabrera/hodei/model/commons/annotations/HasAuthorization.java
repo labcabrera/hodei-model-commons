@@ -1,4 +1,4 @@
-package org.github.labcabrera.hodei.model.commons;
+package org.github.labcabrera.hodei.model.commons.annotations;
 
 import java.util.List;
 

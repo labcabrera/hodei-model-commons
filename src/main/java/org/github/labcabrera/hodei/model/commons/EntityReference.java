@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EntityReference {
 
-	@Schema(description = "Entity type (person or legal entity)", required = true, example = "person")
+	@Schema(description = "Entity type", required = true, example = "person")
 	@NotNull
 	@NotBlank
 	private String type;

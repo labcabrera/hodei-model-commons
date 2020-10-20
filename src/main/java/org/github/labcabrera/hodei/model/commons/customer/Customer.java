@@ -9,7 +9,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.github.labcabrera.hodei.model.commons.ContactData;
-import org.github.labcabrera.hodei.model.commons.EntityMetadata;
+import org.github.labcabrera.hodei.model.commons.annotations.HasAuthorization;
+import org.github.labcabrera.hodei.model.commons.annotations.HasId;
+import org.github.labcabrera.hodei.model.commons.annotations.HasMetadata;
+import org.github.labcabrera.hodei.model.commons.annotations.HasState;
+import org.github.labcabrera.hodei.model.commons.audit.EntityMetadata;
 import org.github.labcabrera.hodei.model.commons.geo.Address;
 import org.github.labcabrera.hodei.model.commons.product.ProductReference;
 import org.github.labcabrera.hodei.model.commons.serialization.RoleManagerFilter;
@@ -31,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Customer {
+public class Customer<E> implements HasId, HasAuthorization, HasMetadata, HasState {
 
 	@Id
 	@Schema(description = "Person identifier", required = true, example = "1")
@@ -41,16 +45,6 @@ public class Customer {
 	@NotNull(message = "{validation.constraints.abstract-entity.required-id-card}")
 	@Schema(description = "Indicates the identification document", required = true)
 	protected IdCard idCard;
-
-	@Valid
-	@NotNull(message = "{validation.constraints.abstract-entity.required-fiscal-address}")
-	@Schema(description = "Fiscal address for this person. It is unique accross the policies", required = true)
-	private Address fiscalAddress;
-
-	@Valid
-	@NotNull(message = "{validation.constraints.abstract-entity.required-contact-data}")
-	@Schema(description = "Contact data. Phones, fax, emails and websites", required = true)
-	protected ContactData contactData;
 
 	@NotBlank(message = "{validation.constraints.person.expected-name}")
 	@Schema(description = "Name", required = true, example = "John")
@@ -76,6 +70,11 @@ public class Customer {
 	@Schema(description = "Nationalities for this person. It is a list because a person can have several")
 	private List<String> nationalities;
 
+	@Valid
+	@NotNull(message = "{validation.constraints.abstract-entity.required-fiscal-address}")
+	@Schema(description = "Fiscal address for this person. It is unique accross the policies", required = true)
+	private Address fiscalAddress;
+
 	@NotNull(message = "{validation.constraints.person.expected-civil-status}")
 	@Schema(description = "Civil status", required = false, example = "single")
 	private CivilStatus civilStatus;
@@ -84,16 +83,25 @@ public class Customer {
 	@Schema(description = "Gender", required = true, example = "male")
 	private Gender gender;
 
-	@NotNull(message = "{validation.constraints.person.expected-detail}")
 	@Valid
-	@Schema(description = "Person detail", required = true)
-	private PersonDetail detail;
+	@NotNull(message = "{validation.constraints.abstract-entity.required-contact-data}")
+	@Schema(description = "Contact data. Phones, fax, emails and websites", required = true)
+	protected ContactData contactData;
+
+	@Valid
+	@Schema(description = "Profession information")
+	protected CustomerProfessionInfo professionInfo;
 
 	@Schema(description = "Product reference list", required = true)
 	private List<ProductReference> productReferences;
 
 	@Schema(description = "Entity state identifier", example = "active")
 	private String state;
+
+	@NotNull(message = "{validation.constraints.person.expected-detail}")
+	@Valid
+	@Schema(description = "Person detail", required = true)
+	private E additionalData;
 
 	@Schema(description = "Entity metadata")
 	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = RoleManagerFilter.class)

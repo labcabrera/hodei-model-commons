@@ -1,9 +1,5 @@
 package org.github.labcabrera.hodei.model.commons.customer;
 
-import java.util.Map;
-
-import javax.validation.Valid;
-
 import org.github.labcabrera.hodei.model.commons.validation.annotation.ExistingJobType;
 import org.github.labcabrera.hodei.model.commons.validation.annotation.ExistingProfession;
 
@@ -13,18 +9,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Schema(description = "Additional information for a person")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersonDetail {
-
-	@Schema(description = "External customer identifier", required = false, example = "false")
-	private String clientNumber;
-
-	@Schema(description = "If true then the customer accepts to receive advertisement or commercial notifications", required = false)
-	private Map<String, Boolean> productCommercialNotifications;
+public class CustomerProfessionInfo {
 
 	@ExistingJobType
 	@Schema(description = "Job Type. Available values can be obtained through customers API", required = false)
@@ -36,11 +25,4 @@ public class PersonDetail {
 
 	@Schema(description = "Economic activity. Available values can be obtained through customers API", required = false)
 	private String economicActivityId;
-
-	@Schema(description = "PEP (Politically Exposed Person) information", required = false)
-	@Valid
-	private PepInformation pep;
-
-	@Schema(description = "High Risk Code", required = false, example = "013")
-	private String highRiskCode;
 }

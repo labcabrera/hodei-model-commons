@@ -1,26 +1,25 @@
 package org.github.labcabrera.hodei.model.commons;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.validation.constraints.Email;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Document
-@Getter
-@Setter
+@Schema(description = "Contact data")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(description = "Contact data")
 public class ContactData {
 
+	@Email
 	@Schema(description = "Email for this person or company", example = "johndoesmith@mail.org")
 	private String email;
 
+	@Email
 	@Schema(description = "Alternate email for this person or company", example = "johndoe@mail.org")
 	private String alternateEmail;
 

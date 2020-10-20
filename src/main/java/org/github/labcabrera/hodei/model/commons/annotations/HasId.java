@@ -1,4 +1,4 @@
-package org.github.labcabrera.hodei.model.commons;
+package org.github.labcabrera.hodei.model.commons.annotations;
 
 /**
  * Generalizacion de las las entidades que tienen un identificador de tipo <i>String</i>.

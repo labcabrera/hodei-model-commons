@@ -1,4 +1,4 @@
-package org.github.labcabrera.hodei.model.commons;
+package org.github.labcabrera.hodei.model.commons.audit;
 
 import java.time.LocalDateTime;
 import java.util.Map;

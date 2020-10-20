@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.github.labcabrera.hodei.model.commons.HasAuthorization;
-import org.github.labcabrera.hodei.model.commons.HasId;
+import org.github.labcabrera.hodei.model.commons.annotations.HasAuthorization;
+import org.github.labcabrera.hodei.model.commons.annotations.HasId;
 import org.github.labcabrera.hodei.model.commons.serialization.RoleManagerFilter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

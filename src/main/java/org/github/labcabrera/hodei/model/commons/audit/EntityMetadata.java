@@ -1,8 +1,10 @@
-package org.github.labcabrera.hodei.model.commons;
+package org.github.labcabrera.hodei.model.commons.audit;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+
+import org.github.labcabrera.hodei.model.commons.MessageEntry;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

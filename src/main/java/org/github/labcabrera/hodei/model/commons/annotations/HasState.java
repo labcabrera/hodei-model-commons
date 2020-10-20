@@ -1,4 +1,4 @@
-package org.github.labcabrera.hodei.model.commons;
+package org.github.labcabrera.hodei.model.commons.annotations;
 
 /**
  * Generalizacion de las entidades que estan asociadas a un estado.

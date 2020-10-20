@@ -6,15 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Document(collection = "currencies")
 @Schema(description = "Represents a currency. It can be EUR, GBP, USD, etc.")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,9 +27,5 @@ public class Currency {
 	private String name;
 
 	private Integer scale;
-
-	public Currency(String id) {
-		this.id = id;
-	}
 
 }

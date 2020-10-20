@@ -3,12 +3,12 @@ package org.github.labcabrera.hodei.model.commons.product;
 import java.util.List;
 
 import org.github.labcabrera.hodei.model.commons.ContactData;
-import org.github.labcabrera.hodei.model.commons.EntityMetadata;
 import org.github.labcabrera.hodei.model.commons.EntityReference;
-import org.github.labcabrera.hodei.model.commons.HasAuthorization;
-import org.github.labcabrera.hodei.model.commons.HasId;
-import org.github.labcabrera.hodei.model.commons.HasMetadata;
-import org.github.labcabrera.hodei.model.commons.HasState;
+import org.github.labcabrera.hodei.model.commons.annotations.HasAuthorization;
+import org.github.labcabrera.hodei.model.commons.annotations.HasId;
+import org.github.labcabrera.hodei.model.commons.annotations.HasMetadata;
+import org.github.labcabrera.hodei.model.commons.annotations.HasState;
+import org.github.labcabrera.hodei.model.commons.audit.EntityMetadata;
 import org.github.labcabrera.hodei.model.commons.geo.Address;
 import org.github.labcabrera.hodei.model.commons.serialization.RoleManagerFilter;
 import org.springframework.data.annotation.Id;

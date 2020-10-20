@@ -1,6 +1,6 @@
 package org.github.labcabrera.hodei.model.commons.customer;
 
-import org.github.labcabrera.hodei.model.commons.EntityMetadata;
+import org.github.labcabrera.hodei.model.commons.audit.EntityMetadata;
 import org.github.labcabrera.hodei.model.commons.serialization.RoleManagerFilter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
