@@ -5,7 +5,7 @@ plugins {
 	id 'maven-publish'
 }
 
-group = 'org.github.labcabrera'
+group = 'com.github.labcabrera'
 version = version
 sourceCompatibility = '11'
 
