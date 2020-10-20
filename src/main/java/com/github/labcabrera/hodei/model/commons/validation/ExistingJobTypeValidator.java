@@ -3,19 +3,19 @@ package com.github.labcabrera.hodei.model.commons.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.repository.CrudRepository;
 
 import com.github.labcabrera.hodei.model.commons.customer.JobType;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingJobType;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ExistingJobTypeValidator implements ConstraintValidator<ExistingJobType, String> {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+	@Autowired(required = false)
+	private CrudRepository<JobType, String> jobTypeRepository;
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
@@ -23,12 +23,12 @@ public class ExistingJobTypeValidator implements ConstraintValidator<ExistingJob
 		if (value == null) {
 			return true;
 		}
-		else if (StringUtils.isBlank(value)) {
-			context.buildConstraintViolationWithTemplate("missingJobTypeId").addConstraintViolation();
-			return false;
+		else if (jobTypeRepository == null) {
+			log.warn("No job type repository bean has been defined. Ignoring validation");
+			return true;
 		}
-		else if (!mongoTemplate.exists(new Query(Criteria.where("id").is(value)), JobType.class)) {
-			context.buildConstraintViolationWithTemplate("unknownJobType").addConstraintViolation();
+		else if (!jobTypeRepository.existsById(value)) {
+			context.buildConstraintViolationWithTemplate("{validation.constraints.job-type.unknown}").addConstraintViolation();
 			return false;
 		}
 		return true;

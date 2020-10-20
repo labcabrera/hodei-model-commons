@@ -29,19 +29,19 @@ public class IdCard {
 	private String number;
 
 	@NotNull(message = "{validation.constraints.person.expected-id-card-type}")
-	@Schema(description = "Document type", required = true, example = "NIF")
+	@Schema(description = "Document type", required = true, example = "nif")
 	private IdCardType type;
 
-	@Schema(description = "When the document was emmited", required = false, example = "2013-06-01")
+	@Schema(description = "When the document was emmited", required = false, example = "")
 	private LocalDate issued;
 
-	@Schema(description = "When the document expires", required = false, example = "2023-12-31")
+	@Schema(description = "When the document expires", required = false, example = "")
 	private LocalDate expires;
 
 	@Schema(description = "Organization that has emmited the document", required = false)
 	private String issuer;
 
-	@Schema(description = "Country that has emmited the document", required = false, example = "ESP")
+	@Schema(description = "Country that has emmited the document", required = false, example = "")
 	@ExistingCountry
 	private String countryId;
 

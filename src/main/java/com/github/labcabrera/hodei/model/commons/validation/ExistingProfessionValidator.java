@@ -3,21 +3,19 @@ package com.github.labcabrera.hodei.model.commons.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.repository.CrudRepository;
 
 import com.github.labcabrera.hodei.model.commons.customer.Profession;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingProfession;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ExistingProfessionValidator implements ConstraintValidator<ExistingProfession, String> {
 
-	@Autowired
-	@Qualifier("mongoTemplateCustomers")
-	private MongoTemplate mongoTemplate;
+	@Autowired(required = false)
+	private CrudRepository<Profession, String> professionRepository;
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
@@ -25,12 +23,12 @@ public class ExistingProfessionValidator implements ConstraintValidator<Existing
 		if (value == null) {
 			return true;
 		}
-		else if (StringUtils.isBlank(value)) {
-			context.buildConstraintViolationWithTemplate("missingProfessionId").addConstraintViolation();
-			return false;
+		else if (professionRepository == null) {
+			log.warn("No profession repository bean has been defined. Ignoring validation");
+			return true;
 		}
-		else if (!mongoTemplate.exists(new Query(Criteria.where("id").is(value)), Profession.class)) {
-			context.buildConstraintViolationWithTemplate("unknownProfession").addConstraintViolation();
+		else if (!professionRepository.existsById(value)) {
+			context.buildConstraintViolationWithTemplate("{validation.constraints.profession.unknown}").addConstraintViolation();
 			return false;
 		}
 		return true;

@@ -1,29 +1,54 @@
 package com.github.labcabrera.hodei.model.commons.validation;
 
+import java.util.List;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.repository.CrudRepository;
 
 import com.github.labcabrera.hodei.model.commons.geo.Country;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingCountry;
 
-public class ExistingCountryValidator implements ConstraintValidator<ExistingCountry, String> {
+import lombok.extern.slf4j.Slf4j;
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+@Slf4j
+public class ExistingCountryValidator implements ConstraintValidator<ExistingCountry, Object> {
+
+	@Autowired(required = false)
+	private CrudRepository<Country, String> countryRepository;
 
 	@Override
-	public boolean isValid(String value, ConstraintValidatorContext ctx) {
+	@SuppressWarnings("unchecked")
+	public boolean isValid(Object object, ConstraintValidatorContext ctx) {
 		ctx.disableDefaultConstraintViolation();
-		if (value == null) {
+		if (object == null) {
 			return true;
 		}
-		if (!mongoTemplate.exists(new Query(Criteria.where("id").is(value)), Country.class)) {
-			ctx.buildConstraintViolationWithTemplate("{validation.constraints.country.unknown.message}")
+		else if (countryRepository == null) {
+			log.warn("No country repository bean has been defined. Ignoring validation");
+			return true;
+		}
+		else if (object instanceof String) {
+			return validate((String) object, ctx);
+		}
+		else if (object instanceof List) {
+			List<String> list = (List<String>) object;
+			boolean valid = true;
+			for (String i : list) {
+				valid &= validate(i, ctx);
+			}
+			return valid;
+		}
+		ctx.buildConstraintViolationWithTemplate("{validation.constraints.country.invalid-type}")
+			.addConstraintViolation();
+		return false;
+	}
+
+	private boolean validate(String value, ConstraintValidatorContext ctx) {
+		if (!countryRepository.existsById(value)) {
+			ctx.buildConstraintViolationWithTemplate("{validation.constraints.country.unknown}")
 				.addConstraintViolation();
 			return false;
 		}

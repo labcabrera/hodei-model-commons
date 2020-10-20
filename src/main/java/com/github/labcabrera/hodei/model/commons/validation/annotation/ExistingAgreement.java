@@ -8,21 +8,17 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.labcabrera.hodei.model.commons.validation.ExistingCountryValidator;
+import com.github.labcabrera.hodei.model.commons.validation.ExistingAgreementValidator;
 
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ExistingCountryValidator.class)
-public @interface ExistingCountry {
+@Constraint(validatedBy = ExistingAgreementValidator.class)
+public @interface ExistingAgreement {
 
-	String message() default "invalid.country";
+	String message() default "invalid.agreement";
 
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
 
-//	@Target({ ElementType.FIELD })
-//	public @interface ExistingCountryList {
-//		ExistingCountry[] value();
-//	}
 }

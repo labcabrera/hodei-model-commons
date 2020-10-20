@@ -4,17 +4,18 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.repository.CrudRepository;
 
 import com.github.labcabrera.hodei.model.commons.geo.RoadType;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingRoadType;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ExistingRoadTypeValidator implements ConstraintValidator<ExistingRoadType, String> {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+	@Autowired(required = false)
+	private CrudRepository<RoadType, String> roadTypeRepository;
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext ctx) {
@@ -22,7 +23,11 @@ public class ExistingRoadTypeValidator implements ConstraintValidator<ExistingRo
 		if (value == null) {
 			return true;
 		}
-		if (!mongoTemplate.exists(new Query(Criteria.where("id").is(value)), RoadType.class)) {
+		else if (roadTypeRepository == null) {
+			log.warn("No road type repository bean has been defined. Ignoring validation");
+			return true;
+		}
+		if (!roadTypeRepository.existsById(value)) {
 			ctx.buildConstraintViolationWithTemplate("{validation.constraints.road-type.unknown.message}")
 				.addConstraintViolation();
 			return false;

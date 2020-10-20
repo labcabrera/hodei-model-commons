@@ -8,21 +8,17 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.github.labcabrera.hodei.model.commons.validation.ExistingCountryValidator;
+import com.github.labcabrera.hodei.model.commons.validation.ExistingNetworkValidator;
 
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ExistingCountryValidator.class)
-public @interface ExistingCountry {
+@Constraint(validatedBy = ExistingNetworkValidator.class)
+public @interface ExistingNetwork {
 
-	String message() default "invalid.country";
+	String message() default "invalid.network";
 
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
 
-//	@Target({ ElementType.FIELD })
-//	public @interface ExistingCountryList {
-//		ExistingCountry[] value();
-//	}
 }

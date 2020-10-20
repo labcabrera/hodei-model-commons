@@ -7,15 +7,15 @@ import com.github.labcabrera.hodei.model.commons.MessageEntry;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Schema(description = "Returns the information associated with the execution of an operation.")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Builder
 public class OperationResult<T> {
 
 	@Schema(description = "Execution result code")
