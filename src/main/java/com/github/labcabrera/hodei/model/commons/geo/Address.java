@@ -32,7 +32,7 @@ public class Address {
 	private String provinceId;
 
 	@NotBlank(message = "{validation.constraints.address.required-locality}")
-	@Schema(description = "Locality", required = true, example = "MADRID")
+	@Schema(description = "Locality", required = true, example = "Madrid")
 	private String locality;
 
 	@NotBlank(message = "{validation.constraints.address.required-zipcode}")
@@ -40,11 +40,11 @@ public class Address {
 	private String zipCode;
 
 	@ExistingRoadType
-	@Schema(description = "Road type. This value must match one of the existing values in the system. You can obtain them from commons API", example = "street")
+	@Schema(description = "Road type. This value must match one of the existing values in the system", example = "street")
 	private String roadType;
 
 	@NotBlank(message = "{validation.constraints.address.required-road}")
-	@Schema(description = "Street, number and floor", required = true, example = "SERRANO 3, 2B")
+	@Schema(description = "Street, number and floor", required = true, example = "Serrano 3, 2B")
 	private String road;
 
 }

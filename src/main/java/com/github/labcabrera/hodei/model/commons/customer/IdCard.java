@@ -38,10 +38,10 @@ public class IdCard {
 	@Schema(description = "When the document expires", required = false, example = "")
 	private LocalDate expires;
 
-	@Schema(description = "Organization that has emmited the document", required = false)
+	@Schema(description = "Organization that has emmited the document", required = false, example = "")
 	private String issuer;
 
-	@Schema(description = "Country that has emmited the document", required = false, example = "")
+	@Schema(description = "Country that has emmited the document", required = false, example = "ESP")
 	@ExistingCountry
 	private String countryId;
 

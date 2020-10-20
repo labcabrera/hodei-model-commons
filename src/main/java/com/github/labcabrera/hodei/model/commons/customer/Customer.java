@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Customer<E> implements HasId, HasAuthorization, HasMetadata, HasState {
+public class Customer implements HasId, HasAuthorization, HasMetadata, HasState {
 
 	@Id
 	@Schema(description = "Person identifier", required = true, example = "1")
@@ -97,11 +97,6 @@ public class Customer<E> implements HasId, HasAuthorization, HasMetadata, HasSta
 
 	@Schema(description = "Entity state identifier", example = "active")
 	private String state;
-
-	@NotNull(message = "{validation.constraints.person.expected-detail}")
-	@Valid
-	@Schema(description = "Person detail", required = true)
-	private E additionalData;
 
 	@Schema(description = "Entity metadata")
 	@JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = RoleManagerFilter.class)
