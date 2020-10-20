@@ -12,7 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(collation = "actionResults")
+@Document(collation = "operationExecutions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +21,9 @@ public class OperationExecution<E> {
 
 	@Id
 	private String id;
+
+	@NotNull
+	private String type;
 
 	@NotNull
 	private LocalDateTime created;

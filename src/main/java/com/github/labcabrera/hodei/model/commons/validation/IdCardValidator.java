@@ -19,16 +19,23 @@ public class IdCardValidator implements ConstraintValidator<ValidIdCard, IdCard>
 		if (value.getNumber() == null) {
 			return true;
 		}
-		if (value.getType() != null) {
-			Predicate<String> predicate = resolveIdCardNumberPredicate(value);
-			if (predicate != null && !predicate.test(value.getNumber())) {
-				ctx.buildConstraintViolationWithTemplate("{validation.constraints.idcard-invalid.message}")
-					.addPropertyNode("idCard.number")
-					.addConstraintViolation();
-				return false;
+		try {
+			if (value.getType() != null) {
+				Predicate<String> predicate = resolveIdCardNumberPredicate(value);
+				if (predicate != null && !predicate.test(value.getNumber())) {
+					ctx.buildConstraintViolationWithTemplate("{validation.constraints.idcard.invalid}")
+						.addPropertyNode("number")
+						.addConstraintViolation();
+					return false;
+				}
 			}
+			return true;
 		}
-		return true;
+		catch (Exception ex) {
+			ctx.buildConstraintViolationWithTemplate("{validation.constraints.idcard.internal-error}")
+				.addConstraintViolation();
+			return false;
+		}
 	}
 
 	private Predicate<String> resolveIdCardNumberPredicate(IdCard idCard) {
