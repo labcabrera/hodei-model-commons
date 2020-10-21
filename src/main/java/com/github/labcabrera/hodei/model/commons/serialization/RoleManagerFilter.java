@@ -1,6 +1,7 @@
 package com.github.labcabrera.hodei.model.commons.serialization;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class RoleManagerFilter {
@@ -14,8 +15,8 @@ public class RoleManagerFilter {
 			return false;
 		}
 		return authentication.getAuthorities().stream()
-			.map(e -> e.getAuthority())
-			.filter(e -> REQUIRED_ROLE.equals(e))
+			.map(GrantedAuthority::getAuthority)
+			.filter(REQUIRED_ROLE::equals)
 			.count() == 0L;
 	}
 
