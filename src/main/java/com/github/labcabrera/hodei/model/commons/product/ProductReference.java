@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 public class ProductReference {
 
 	@NotNull
-	@Schema(description = "Module name", required = true, example = "ppi")
+	@Schema(description = "Module name", required = true, example = "demo-product")
 	private String module;
 
 	@NotNull
-	@Schema(description = "Agreement identifier", required = true, example = "10001")
+	@Schema(description = "Agreement identifier", required = true, example = "demo-agreement")
 	private String agreementId;
 
 	@NotNull
