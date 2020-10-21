@@ -13,7 +13,10 @@ public class RoleManagerFilter {
 		if (authentication == null) {
 			return false;
 		}
-		return authentication.getAuthorities().stream().map(e -> e.getAuthority()).filter(e -> REQUIRED_ROLE.equals(e)).count() == 0L;
+		return authentication.getAuthorities().stream()
+			.map(e -> e.getAuthority())
+			.filter(e -> REQUIRED_ROLE.equals(e))
+			.count() == 0L;
 	}
 
 	@Override

@@ -2,7 +2,9 @@ package com.github.labcabrera.hodei.model.commons.geo;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
+import com.github.labcabrera.hodei.model.commons.validation.ValidationPattern;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingCountry;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingProvince;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingRoadType;
@@ -33,6 +35,7 @@ public class Address {
 
 	@NotBlank(message = "{validation.constraints.address.required-locality}")
 	@Schema(description = "Locality", required = true, example = "Madrid")
+	@Pattern(regexp = ValidationPattern.NAME_DEFAULT)
 	private String locality;
 
 	@NotBlank(message = "{validation.constraints.address.required-zipcode}")

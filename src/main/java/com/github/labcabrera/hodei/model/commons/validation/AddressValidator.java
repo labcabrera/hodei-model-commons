@@ -3,25 +3,58 @@ package com.github.labcabrera.hodei.model.commons.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+
 import com.github.labcabrera.hodei.model.commons.geo.Address;
+import com.github.labcabrera.hodei.model.commons.geo.Province;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ValidAddress;
 
 public class AddressValidator implements ConstraintValidator<ValidAddress, Address> {
+
+	private static final String ESP_ZIPCODE_PATTERN = "^\\n{5}$";
+
+	@Autowired(required = false)
+	private CrudRepository<Province, String> provinceRepository;
 
 	@Override
 	public boolean isValid(Address address, ConstraintValidatorContext ctx) {
 		ctx.disableDefaultConstraintViolation();
 		boolean result = true;
-		result &= validateProvince(address, ctx);
+		result &= checkProvinceCountry(address, ctx);
+		result &= checkSpainAddress(address, ctx);
 		return result;
 	}
 
-	// Solo exigimos la provincia para ESP. Seria mejor parametrizar la lista de paises
-	private boolean validateProvince(Address address, ConstraintValidatorContext ctx) {
-		boolean requiredProvince = "ESP".equals(address.getCountryId());
-		boolean hasProvince = address.getProvinceId() != null;
-		if (requiredProvince && !hasProvince) {
-			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.required-province.message}")
+	private boolean checkProvinceCountry(Address address, ConstraintValidatorContext ctx) {
+		if (address.getProvinceId() == null || provinceRepository == null || address.getCountryId() == null) {
+			return true;
+		}
+		Province province = provinceRepository.findById(address.getProvinceId()).orElse(null);
+		if (province != null && !address.getCountryId().equals(province.getId())) {
+			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.province-does-not-match-country}")
+				.addConstraintViolation();
+			return false;
+		}
+		return true;
+	}
+
+	private boolean checkSpainAddress(Address address, ConstraintValidatorContext ctx) {
+		if (!"ESP".equals(address.getCountryId())) {
+			return true;
+		}
+		if (address.getProvinceId() == null) {
+			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.required-province}")
+				.addConstraintViolation();
+			return false;
+		}
+		if (address.getZipCode() == null) {
+			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.required-zipcode}")
+				.addConstraintViolation();
+			return false;
+		}
+		else if (address.getZipCode().matches(ESP_ZIPCODE_PATTERN)) {
+			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.invalid-zip-code}")
 				.addConstraintViolation();
 			return false;
 		}

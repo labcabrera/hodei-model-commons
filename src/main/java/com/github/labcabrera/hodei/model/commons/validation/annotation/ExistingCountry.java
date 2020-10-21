@@ -21,8 +21,4 @@ public @interface ExistingCountry {
 
 	Class<? extends Payload>[] payload() default {};
 
-//	@Target({ ElementType.FIELD })
-//	public @interface ExistingCountryList {
-//		ExistingCountry[] value();
-//	}
 }
