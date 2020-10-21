@@ -12,7 +12,7 @@ import com.github.labcabrera.hodei.model.commons.validation.annotation.ValidAddr
 
 public class AddressValidator implements ConstraintValidator<ValidAddress, Address> {
 
-	private static final String ESP_ZIPCODE_PATTERN = "^\\n{5}$";
+	private static final String ESP_ZIPCODE_PATTERN = "^\\d{5}$";
 
 	@Autowired(required = false)
 	private CrudRepository<Province, String> provinceRepository;
@@ -31,7 +31,7 @@ public class AddressValidator implements ConstraintValidator<ValidAddress, Addre
 			return true;
 		}
 		Province province = provinceRepository.findById(address.getProvinceId()).orElse(null);
-		if (province != null && !address.getCountryId().equals(province.getId())) {
+		if (province != null && !address.getCountryId().equals(province.getCountryId())) {
 			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.province-does-not-match-country}")
 				.addConstraintViolation();
 			return false;
@@ -53,7 +53,7 @@ public class AddressValidator implements ConstraintValidator<ValidAddress, Addre
 				.addConstraintViolation();
 			return false;
 		}
-		else if (address.getZipCode().matches(ESP_ZIPCODE_PATTERN)) {
+		else if (!address.getZipCode().matches(ESP_ZIPCODE_PATTERN)) {
 			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.invalid-zip-code}")
 				.addConstraintViolation();
 			return false;

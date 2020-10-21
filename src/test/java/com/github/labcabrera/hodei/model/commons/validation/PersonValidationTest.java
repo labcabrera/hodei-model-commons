@@ -132,7 +132,7 @@ public class PersonValidationTest {
 		Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 		assertEquals(1, violations.size());
 	}
-	
+
 	@Test
 	public void testValidPhoneNumber01() {
 		Customer customer = buildValidCustomer();
@@ -189,7 +189,6 @@ public class PersonValidationTest {
 			CrudRepository<Country, String> mock = mock(CrudRepository.class);
 			when(mock.existsById("ESP")).thenReturn(true);
 			when(mock.existsById("ITA")).thenReturn(true);
-			when(mock.existsById("XXX")).thenReturn(false);
 			return mock;
 		}
 
@@ -197,7 +196,6 @@ public class PersonValidationTest {
 		CrudRepository<Province, String> provinceRepository() {
 			CrudRepository<Province, String> mock = mock(CrudRepository.class);
 			when(mock.existsById("ESP-28")).thenReturn(true);
-			when(mock.existsById("ESP-XX")).thenReturn(false);
 			return mock;
 		}
 
