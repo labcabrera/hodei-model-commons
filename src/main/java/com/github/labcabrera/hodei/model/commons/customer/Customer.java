@@ -2,6 +2,7 @@ package com.github.labcabrera.hodei.model.commons.customer;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -92,8 +93,11 @@ public class Customer implements HasId, HasAuthorization, HasMetadata, HasState 
 	@Schema(description = "Profession information")
 	protected CustomerProfessionInfo professionInfo;
 
-	@Schema(description = "Product reference list", required = true)
+	@Schema(description = "Product reference list")
 	private List<ProductReference> productReferences;
+
+	@Schema(description = "Commercial notifications by product")
+	private Map<String, CommercialNotifications> commercialNotifications;
 
 	@Schema(description = "Entity state identifier", example = "active")
 	private String state;
