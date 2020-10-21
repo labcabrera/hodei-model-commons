@@ -11,12 +11,6 @@ group = 'com.github.labcabrera'
 version = version
 sourceCompatibility = '11'
 
-ext {
-	set('nexusUsername',                System.getenv('NEXUS_USERNAME'))
-	set('nexusPassword',                System.getenv('NEXUS_PASSWORD'))
-	set('nexusUrl',                     System.getenv('NEXUS_URL'))
-}
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -62,26 +56,24 @@ jar {
 }
 
 publishing {
+	repositories {
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/labcabrera/hodei-model-commons")
+			credentials {
+				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+			}
+		}
+	}
 	publications {
-		mavenJava(MavenPublication) {
+	    gpr(MavenPublication) {
+			//from(components.java)
 			groupId = group
 			artifactId = project.name
 			version = version
 			from components.java
 			artifact sourcesJar
-		}
+	    }
 	}
-	repositories {
-		maven {
-			credentials {
-				username nexusUsername
-				password nexusPassword
-			}
-			if (project.version.endsWith('-SNAPSHOT')) {
-				url "${nexusUrl}/repository/maven-snapshots"
-			} else {
-				url "${nexusUrl}/repository/maven-releases"
-			}
-		}
-	}		
 }
