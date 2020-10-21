@@ -1,1 +1,3 @@
 = Hodei Commons Model
+
+image:https://api.codacy.com/project/badge/Grade/d9244b63c1b64ae4ae7148398c900d48[link="https://app.codacy.com/gh/labcabrera/hodei-model-commons?utm_source=github.com&utm_medium=referral&utm_content=labcabrera/hodei-model-commons&utm_campaign=Badge_Grade"]
