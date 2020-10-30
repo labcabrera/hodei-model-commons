@@ -1,6 +1,7 @@
 package com.github.labcabrera.hodei.model.commons.geo;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class Locality {
 
 	private String zipCode;
 
-	private String provinceId;
+	@DBRef(db = "hodei-commons")
+	private Province province;
 
 }

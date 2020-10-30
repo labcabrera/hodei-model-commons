@@ -4,6 +4,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import com.github.labcabrera.hodei.model.commons.validation.ValidationPattern;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingCountry;
 import com.github.labcabrera.hodei.model.commons.validation.annotation.ExistingProvince;
@@ -24,11 +26,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Address {
 
+	@DBRef(db = "hodei-commons")
 	@ExistingCountry
 	@NotNull(message = "{validation.constraints.address.required-country}")
 	@Schema(description = "Country", required = true, example = "ESP")
 	private Country country;
 
+	@DBRef(db = "hodei-commons")
 	@ExistingProvince
 	@Schema(description = "Province", required = false, example = "ESP-28")
 	private Province province;
