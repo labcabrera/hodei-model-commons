@@ -80,15 +80,7 @@ public class PersonValidationTest {
 	@Test
 	public void testInvalidFiscalAddressCountryId() {
 		Customer customer = buildValidCustomer();
-		customer.getFiscalAddress().setCountryId("XXX");
-		Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
-		assertEquals(1, violations.size());
-	}
-
-	@Test
-	public void testInvalidBirthCountrysId() {
-		Customer customer = buildValidCustomer();
-		customer.setBirthCountryId("XXX");
+		customer.getFiscalAddress().setCountry(Country.builder().id("XXX").build());
 		Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 		assertEquals(1, violations.size());
 	}
@@ -120,7 +112,7 @@ public class PersonValidationTest {
 	@Test
 	public void testInvalidProvince() {
 		Customer customer = buildValidCustomer();
-		customer.getFiscalAddress().setProvinceId("ESP-XX");
+		customer.getFiscalAddress().setProvince(Province.builder().id("ESP-XX").build());
 		Set<ConstraintViolation<Customer>> violations = validator.validate(customer);
 		assertEquals(1, violations.size());
 	}
@@ -164,8 +156,8 @@ public class PersonValidationTest {
 				.type(IdCardType.NIF)
 				.build())
 			.fiscalAddress(Address.builder()
-				.countryId("ESP")
-				.provinceId("ESP-28")
+				.country(Country.builder().id("ESP").build())
+				.province(Province.builder().id("ESP-28").build())
 				.locality("Madrid")
 				.zipCode("28013")
 				.road("Calle Mayor 2, 3ºB")

@@ -30,6 +30,15 @@ public class ExistingCountryValidator implements ConstraintValidator<ExistingCou
 			log.warn("No country repository bean has been defined. Ignoring validation");
 			return true;
 		}
+		else if (object instanceof Country) {
+			Country country = (Country) object;
+			if (country.getId() == null) {
+				ctx.buildConstraintViolationWithTemplate("{validation.constraints.country.required}")
+					.addConstraintViolation();
+				return false;
+			}
+			return validate(country.getId(), ctx);
+		}
 		else if (object instanceof String) {
 			return validate((String) object, ctx);
 		}
@@ -41,6 +50,7 @@ public class ExistingCountryValidator implements ConstraintValidator<ExistingCou
 			}
 			return valid;
 		}
+
 		ctx.buildConstraintViolationWithTemplate("{validation.constraints.country.invalid-type}")
 			.addConstraintViolation();
 		return false;

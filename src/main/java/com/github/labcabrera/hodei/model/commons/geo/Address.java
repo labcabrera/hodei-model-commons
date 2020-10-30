@@ -27,11 +27,11 @@ public class Address {
 	@ExistingCountry
 	@NotNull(message = "{validation.constraints.address.required-country}")
 	@Schema(description = "Country", required = true, example = "ESP")
-	private String countryId;
+	private Country country;
 
 	@ExistingProvince
 	@Schema(description = "Province", required = false, example = "ESP-28")
-	private String provinceId;
+	private Province province;
 
 	@NotBlank(message = "{validation.constraints.address.required-locality}")
 	@Schema(description = "Locality", required = true, example = "Madrid")

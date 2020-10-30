@@ -11,6 +11,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.github.labcabrera.hodei.model.commons.annotations.HasMetadata;
 import com.github.labcabrera.hodei.model.commons.annotations.HasState;
 import com.github.labcabrera.hodei.model.commons.audit.EntityMetadata;
 import com.github.labcabrera.hodei.model.commons.geo.Address;
+import com.github.labcabrera.hodei.model.commons.geo.Country;
 import com.github.labcabrera.hodei.model.commons.product.ProductReference;
 import com.github.labcabrera.hodei.model.commons.serialization.RoleManagerFilter;
 import com.github.labcabrera.hodei.model.commons.validation.ValidationPattern;
@@ -79,7 +81,8 @@ public class Customer implements HasId, HasAuthorization, HasMetadata, HasState 
 
 	@ExistingCountry
 	@Schema(description = "Birth country for this persons", required = true, example = "ESP")
-	private String birthCountryId;
+	@DBRef(db = "hodei-commons")
+	private Country birthCountry;
 
 	@ExistingCountry
 	@Schema(description = "Nationalities for this person. It is a list because a person can have several")

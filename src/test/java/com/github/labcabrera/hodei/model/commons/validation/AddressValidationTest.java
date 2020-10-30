@@ -57,7 +57,7 @@ public class AddressValidationTest {
 	@Test
 	public void testInvalidCountry() {
 		Address address = buildValidAddress();
-		address.setCountryId("XXX");
+		address.setCountry(Country.builder().id("XXX").build());
 		Set<ConstraintViolation<Address>> violations = validator.validate(address);
 		assertEquals(2, violations.size());
 	}
@@ -65,7 +65,7 @@ public class AddressValidationTest {
 	@Test
 	public void testInvalidProvince() {
 		Address address = buildValidAddress();
-		address.setProvinceId("ESP-XX");
+		address.setProvince(Province.builder().id("ESP-XX").build());
 		Set<ConstraintViolation<Address>> violations = validator.validate(address);
 		assertEquals(1, violations.size());
 	}
@@ -73,16 +73,16 @@ public class AddressValidationTest {
 	@Test
 	public void testInvalidProvinceCountry() {
 		Address address = buildValidAddress();
-		address.setCountryId("ITA");
-		address.setProvinceId("ESP-28");
+		address.setCountry(Country.builder().id("ITA").build());
+		address.setProvince(Province.builder().id("ESP-28").build());
 		Set<ConstraintViolation<Address>> violations = validator.validate(address);
 		assertEquals(1, violations.size());
 	}
 
 	private Address buildValidAddress() {
 		return Address.builder()
-			.countryId("ESP")
-			.provinceId("ESP-28")
+			.country(Country.builder().id("ESP").build())
+			.province(Province.builder().id("ESP-28").build())
 			.locality("Madrid")
 			.zipCode("28013")
 			.road("Calle Mayor 2, 3ºB")

@@ -27,11 +27,11 @@ public class AddressValidator implements ConstraintValidator<ValidAddress, Addre
 	}
 
 	private boolean checkProvinceCountry(Address address, ConstraintValidatorContext ctx) {
-		if (address.getProvinceId() == null || provinceRepository == null || address.getCountryId() == null) {
+		if (address.getProvince() == null || provinceRepository == null || address.getCountry() == null) {
 			return true;
 		}
-		Province province = provinceRepository.findById(address.getProvinceId()).orElse(null);
-		if (province != null && !address.getCountryId().equals(province.getCountryId())) {
+		Province province = provinceRepository.findById(address.getProvince().getId()).orElse(null);
+		if (province != null && !address.getCountry().getId().equals(province.getCountryId())) {
 			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.province-does-not-match-country}")
 				.addConstraintViolation();
 			return false;
@@ -40,10 +40,10 @@ public class AddressValidator implements ConstraintValidator<ValidAddress, Addre
 	}
 
 	private boolean checkSpainAddress(Address address, ConstraintValidatorContext ctx) {
-		if (!"ESP".equals(address.getCountryId())) {
+		if (address.getCountry() == null || !"ESP".equals(address.getCountry().getId())) {
 			return true;
 		}
-		if (address.getProvinceId() == null) {
+		if (address.getProvince() == null) {
 			ctx.buildConstraintViolationWithTemplate("{validation.constraints.address.required-province}")
 				.addConstraintViolation();
 			return false;
